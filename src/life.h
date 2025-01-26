@@ -283,7 +283,7 @@ class LifeCfg {
         // [ 1x2y10x11y ]
         if(pastlives.find(config) != pastlives.end())
         {
-            std::cout << "ESTABILIDADE ALCANÇADA NA GERAÇÃO " << geracaos << ". POIS CHEGAMOS À UMA CONFIGURAÇÃO VISTA ANTERIORMENTE NA GERAÇÃO " << pastlives[config] << ".\n";
+            std::cout << "REACHED STABILITY AFTER " << geracaos << " GENERATIONS. AN EQUAL CONFIGURATION WAS SEEN AT GENERATION " << pastlives[config] << ".\n";
             // pensar em como acabar o programa
             exit(0);
         }
@@ -419,7 +419,7 @@ class LifeCfg {
     /// @brief Prints the image
     void print()
     {   
-        std::cout << "****************************************************************\nWelcome to Conway’s game of Life.\nRunning a simulation on a grid of size " << rows << " by " << cols << " in which\neach cell can either be occupied by an organism or not. The occupied cells change from generation to generation\naccording to the number of neighboring cells which are alive.\n****************************************************************\n";
+        std::cout << "****************************************************************\nWelcome to Conway’s game of Life.\nRunning a simulation on a grid of size " << rows << " by " << cols << " in which\neach cell can either be occupied by an organism or not.\nThe occupied cells change from generation to generation\naccording to the number of neighboring cells which are alive.\n****************************************************************\n";
         for(int i=0; i<rows; ++i)
         {
             for(int j=0; j<cols; ++j)

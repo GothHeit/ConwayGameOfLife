@@ -4,3 +4,5 @@ bin
 *.swp
 .*.swp
 build
+gameoflife
+imageoutput
