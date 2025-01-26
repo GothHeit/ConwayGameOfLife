@@ -63,6 +63,8 @@ static const Color YELLOW = Color{ 255, 255, 0 };          //!< Yellow.
 static const Color LIGHT_YELLOW = Color{ 255, 255, 153 };  //!< Light yellow.
 static const Color PURPLE = Color{ 128, 0, 128 }; //!< Purple.
 
+static const Color PINK = Color{ 244, 181, 235 }; //!< Pink.
+
 /// A color palette for later use.
 static std::map<std::string, Color> color_pallet{ { "black", BLACK },
                                                   { "white", WHITE },
@@ -78,7 +80,8 @@ static std::map<std::string, Color> color_pallet{ { "black", BLACK },
                                                   { "steel_blue", STEEL_BLUE },
                                                   { "yellow", YELLOW },
                                                   { "light_yellow", LIGHT_YELLOW },
-                                                  { "purple", PURPLE }
+                                                  { "purple", PURPLE },
+                                                  { "pink", PINK}
                                                    };
 
 }  // namespace life

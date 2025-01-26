@@ -75,6 +75,25 @@ class LifeCfg {
     std::string readfrom;
     Color Background = BLACK;
     Color LiveColor = GREEN;
+    // USABLE COLORS
+    /*
+        { "black", BLACK },
+        { "white", WHITE },
+        { "dark_green", DARK_GREEN },
+        { "red", RED },
+        { "green", GREEN },
+        { "blue", BLUE },
+        { "crimson", CRIMSON },
+        { "light_blue", LIGHT_BLUE },
+        { "light_grey", LIGHT_GREY },
+        { "deep_sky_blue", DEEP_SKY_BLUE },
+        { "dodger_blue", DODGER_BLUE },
+        { "steel_blue", STEEL_BLUE },
+        { "yellow", YELLOW },
+        { "light_yellow", LIGHT_YELLOW },
+        { "purple", PURPLE }
+    */
+
     int roblox = 10;
     int fps = 2;
     std::string outputfolder{};
@@ -91,7 +110,7 @@ class LifeCfg {
     size_type cols(void) const; */
 
     std::unordered_map<std::string, std::string> configuracaoses;
-
+    /// @brief Sends a helping message to the user.
     void givehelp()
     {
         const char * helping = R"(
@@ -248,19 +267,20 @@ class LifeCfg {
     {
         if(livecoords.size() == 0)
         {
-            std::cout << "FIM DA SIMULAÇÃO, TODAS AS CÉLULAS MORRERAM.\n BAD ENDING\n\n\n\n\n\n\n";
+            std::cout << "THE END OF SIMULATION, EVERY CELL DIED.\n BAD ENDING\n";
             // acabar com tudo
             exit(0);
         }
         std::string config{};
         std::sort(livecoords.begin(), livecoords.end(), [](std::pair<int, int> a, std::pair<int, int> b){if(a.first < b.first || (a.first == b.first && a.second < b.second)){return true;} return false;});
-        
+        // ordem lexicográfica de pares ordenados :p
         for(std::pair<int, int> negocio : livecoords)
         {
             config +=  negocio.first + "x";
             config +=  negocio.second + "y";
         }
-
+        // (1,2), (10,11)
+        // [ 1x2y10x11y ]
         if(pastlives.find(config) != pastlives.end())
         {
             std::cout << "ESTABILIDADE ALCANÇADA NA GERAÇÃO " << geracaos << ". POIS CHEGAMOS À UMA CONFIGURAÇÃO VISTA ANTERIORMENTE NA GERAÇÃO " << pastlives[config] << ".\n";
@@ -272,6 +292,10 @@ class LifeCfg {
             pastlives[config] = geracaos;
         }
         geracaos++;
+        if(limitado && geracaos > limitedetelas)
+        {
+            std::cout << "THE END OF SIMULATION, GENERATION LIMIT REACHED.\n";
+        }
 
         gettonextconfig();
 
@@ -395,7 +419,7 @@ class LifeCfg {
     /// @brief Prints the image
     void print()
     {   
-        std::cout << "****************************************************************\nWelcome to Conway’s game of Life.\nRunning a simulation on a grid of size 8 by 9 in which\neach cell can either be occupied by an organism or not.The occupied cells change from generation to generation\naccording to the number of neighboring cells which are alive.\n****************************************************************\n";
+        std::cout << "****************************************************************\nWelcome to Conway’s game of Life.\nRunning a simulation on a grid of size " << rows << " by " << cols << " in which\neach cell can either be occupied by an organism or not. The occupied cells change from generation to generation\naccording to the number of neighboring cells which are alive.\n****************************************************************\n";
         for(int i=0; i<rows; ++i)
         {
             for(int j=0; j<cols; ++j)
@@ -415,46 +439,14 @@ class LifeCfg {
         if(generateimage)
         {
 
-            std::string archnemesis = std::to_string(geracaos) + outputfolder;
+            std::string archnemesis = outputfolder + "/generation" + std::to_string(geracaos) + ".png";
             // std::cout << nossatela->pixels() << '\n';
             
             encode_png(archnemesis, nossatela->pixels(), nossatela->width(), nossatela->height());
             nossatela->clear(Background);
-        }                    
+        }                 
 
     }
-    
-/// Saves an image as a **ascii** PPM file.
-bool save_ppm3(const std::string& file_name, const unsigned char* data,
-               size_t w,
-               size_t h,
-               size_t d=4) {
-  std::ofstream ofs_file(file_name, std::ios::out);
-  if (not ofs_file.is_open()) 
-  {
-    return false;
-  }
-
-  ofs_file << "P3\n";
-  ofs_file << w << " " << h << "\n";
-  ofs_file << "255\n";
-  // [ 100, 100, 100, 255, 100, 100, 100, 255]
-  for(int i=0; i<(w*h*d); ++i)
-  {
-    if(i%d <= 2)
-    {
-      ofs_file << int(data[i]) << " ";
-    }
-      if(((i+1)%d) == 0) { ofs_file << " "; }
-      if((i+1) % (d*w) == 0){ ofs_file << "\n";}
-  }
-
-  // TODO: Complete a geração do arquivo PPM!!
-
-  ofs_file.close();
-
-  return true;  // stub
-}
 /// @brief Saves a canvas as a PNG
 /// @param filename output filename.
 /// @param image canvas' pixels.
